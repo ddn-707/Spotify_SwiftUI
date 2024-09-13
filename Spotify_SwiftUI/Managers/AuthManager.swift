@@ -6,9 +6,12 @@
 //
 
 import Foundation
+import SwiftUI
 
 final class AuthManager: ObservableObject {
     static let shared = AuthManager()
+    
+    private var refreshingToken = false
     
     private init(){
         let accessToken = UserDefaults.standard.string(forKey: Constants.ud_accessToken)
@@ -16,7 +19,13 @@ final class AuthManager: ObservableObject {
     }
     
     @Published var isSignedIn: Bool
-    
+    @AppStorage(Constants.ud_accessToken) private var accessToken: String? {
+        didSet {
+            isSignedIn = accessToken != nil
+        }
+    }
+    @AppStorage(Constants.ud_refreshToken) private var refreshToken: String?
+    @AppStorage(Constants.ud_expirationDate) private var tokenExpirationDate: Date?
     public var signInURL: URL? {
         let base = "https://accounts.spotify.com/authorize"
         let urlString = "\(base)?response_type=code&client_id=\(Constants.getClientID())&scope=\(Constants.scopes)&redirect_uri=\(Constants.redirectURI)&show_dialog=TRUE"
@@ -53,6 +62,7 @@ final class AuthManager: ObservableObject {
             }
             do {
                 let result = try JSONDecoder().decode(AuthResponse.self, from: data)
+                self?.cacheToken(result: result)
                 print("result: \(result)")
                 completion(true)
             }catch {
@@ -61,5 +71,17 @@ final class AuthManager: ObservableObject {
             }
         }
         task.resume()
+    }
+    
+    public func cacheToken(result: AuthResponse){
+        DispatchQueue.main.async {
+            withAnimation {
+                self.accessToken = result.access_token
+                if let refresh_token = result.refresh_token {
+                    self.refreshToken = refresh_token
+                }
+                self.tokenExpirationDate = Date().addingTimeInterval(TimeInterval(result.expires_in))
+            }
+        }
     }
 }

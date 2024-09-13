@@ -8,8 +8,13 @@
 import SwiftUI
 
 struct ContentView: View {
+    @StateObject var authManager: AuthManager = AuthManager.shared
     var body: some View {
-        WelcomeView()
+        if(authManager.isSignedIn){
+            TabBarView()
+        }else{
+            WelcomeView()
+        }
     }
 }
 

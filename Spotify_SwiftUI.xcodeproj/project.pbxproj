@@ -16,6 +16,11 @@
 		AE80FB2B2C932385002601F4 /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE80FB2A2C932385002601F4 /* WelcomeView.swift */; };
 		AE80FB2E2C932C86002601F4 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE80FB2D2C932C86002601F4 /* AuthManager.swift */; };
 		AE80FB312C933041002601F4 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE80FB302C933041002601F4 /* Constants.swift */; };
+		AEFFC4752C948F1700E35DA5 /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEFFC4742C948F1700E35DA5 /* DateExtension.swift */; };
+		AEFFC4772C9494FD00E35DA5 /* TabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEFFC4762C9494FD00E35DA5 /* TabBarView.swift */; };
+		AEFFC4792C9498DE00E35DA5 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEFFC4782C9498DE00E35DA5 /* HomeView.swift */; };
+		AEFFC47B2C9498FB00E35DA5 /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEFFC47A2C9498FB00E35DA5 /* SearchView.swift */; };
+		AEFFC47D2C94991400E35DA5 /* LibraryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEFFC47C2C94991400E35DA5 /* LibraryView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,6 +34,11 @@
 		AE80FB2A2C932385002601F4 /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
 		AE80FB2D2C932C86002601F4 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
 		AE80FB302C933041002601F4 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		AEFFC4742C948F1700E35DA5 /* DateExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
+		AEFFC4762C9494FD00E35DA5 /* TabBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarView.swift; sourceTree = "<group>"; };
+		AEFFC4782C9498DE00E35DA5 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		AEFFC47A2C9498FB00E35DA5 /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
+		AEFFC47C2C94991400E35DA5 /* LibraryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -118,6 +128,10 @@
 			isa = PBXGroup;
 			children = (
 				AE80FB2A2C932385002601F4 /* WelcomeView.swift */,
+				AEFFC4762C9494FD00E35DA5 /* TabBarView.swift */,
+				AEFFC4782C9498DE00E35DA5 /* HomeView.swift */,
+				AEFFC47A2C9498FB00E35DA5 /* SearchView.swift */,
+				AEFFC47C2C94991400E35DA5 /* LibraryView.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -133,9 +147,18 @@
 		AE80FB2F2C93302A002601F4 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				AEFFC4732C948EF500E35DA5 /* Extensions */,
 				AE80FB302C933041002601F4 /* Constants.swift */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		AEFFC4732C948EF500E35DA5 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				AEFFC4742C948F1700E35DA5 /* DateExtension.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -209,12 +232,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				AE80FB312C933041002601F4 /* Constants.swift in Sources */,
+				AEFFC4772C9494FD00E35DA5 /* TabBarView.swift in Sources */,
+				AEFFC4752C948F1700E35DA5 /* DateExtension.swift in Sources */,
+				AEFFC4792C9498DE00E35DA5 /* HomeView.swift in Sources */,
+				AEFFC47D2C94991400E35DA5 /* LibraryView.swift in Sources */,
 				83A2F8642C93DFEE003AAD96 /* WebUIView.swift in Sources */,
 				AE70C4F92C8CB4160048A3FB /* ContentView.swift in Sources */,
 				AE80FB2E2C932C86002601F4 /* AuthManager.swift in Sources */,
 				83A2F8672C943470003AAD96 /* AuthResponse.swift in Sources */,
 				AE80FB2B2C932385002601F4 /* WelcomeView.swift in Sources */,
 				AE70C4F72C8CB4160048A3FB /* Spotify_SwiftUIApp.swift in Sources */,
+				AEFFC47B2C9498FB00E35DA5 /* SearchView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
