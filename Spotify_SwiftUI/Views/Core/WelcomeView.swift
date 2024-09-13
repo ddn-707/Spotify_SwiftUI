@@ -9,21 +9,24 @@ import SwiftUI
 
 struct WelcomeView: View {
     let screenWidth = UIScreen.main.bounds.size.width
+    @StateObject var authManager: AuthManager = AuthManager.shared
     var body: some View {
-        ZStack{
-            Image("albumCover")
-                .resizable()
-                .ignoresSafeArea()
-                .aspectRatio(contentMode: .fill)
-            Color(Color.black)
-                .opacity(0.5)
-                .ignoresSafeArea()
-            VStack{
-                titleView
-                Spacer()
-                logoView
-                Spacer()
-                buttonView
+        NavigationView {
+            ZStack{
+                Image("albumCover")
+                    .resizable()
+                    .ignoresSafeArea()
+                    .aspectRatio(contentMode: .fill)
+                Color(Color.black)
+                    .opacity(0.5)
+                    .ignoresSafeArea()
+                VStack{
+                    titleView
+                    Spacer()
+                    logoView
+                    Spacer()
+                    buttonView
+                }
             }
         }
     }
@@ -55,16 +58,28 @@ struct WelcomeView: View {
         }
     }
     
+    
     private var buttonView: some View {
-        Text("Signin With Spotify")
-            .font(.body)
-            .frame(
-                width: screenWidth - 80,
-                alignment: .center)
-            .foregroundColor(.black)
-            .padding()
-            .background(.white)
-            .cornerRadius(25)
+        NavigationLink(
+            destination:
+                WebUIView(url: authManager.signInURL!)
+                .ignoresSafeArea()
+                .navigationTitle("SignIn")
+                .navigationBarTitleDisplayMode(.inline)
+        ){
+            Text("Signin With Spotify")
+                .font(.body)
+                .frame(
+                    width: screenWidth - 80,
+                    alignment: .center)
+                .foregroundColor(.black)
+                .padding()
+                .background(.white)
+                .cornerRadius(25)
+        }
+        .navigationBarHidden(true)
+        .navigationBarTitleDisplayMode(.inline)
+        
     }
 }
 
