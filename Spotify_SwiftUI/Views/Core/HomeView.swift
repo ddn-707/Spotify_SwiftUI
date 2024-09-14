@@ -9,7 +9,25 @@ import SwiftUI
 
 struct HomeView: View {
     var body: some View {
-        Text("Home, World!")
+        NavigationView {
+            bodyView
+                .toolbar {
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        Image(systemName: "gear")
+                    }
+                }
+                .navigationBarTitleDisplayMode(.large)
+                .navigationBarHidden(false)
+                .navigationTitle("Spotify")
+        }
+    }
+}
+
+private var bodyView: some View {
+    ScrollView {
+        VStack {
+            NewReleasedAlbumView()
+        }
     }
 }
 
