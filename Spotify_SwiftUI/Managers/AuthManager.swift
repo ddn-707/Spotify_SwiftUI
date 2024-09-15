@@ -26,6 +26,7 @@ final class AuthManager: ObservableObject {
     }
     @AppStorage(Constants.ud_refreshToken) private var refreshToken: String?
     @AppStorage(Constants.ud_expirationDate) private var tokenExpirationDate: Date?
+    
     public var signInURL: URL? {
         let base = "https://accounts.spotify.com/authorize"
         let urlString = "\(base)?response_type=code&client_id=\(Constants.getClientID())&scope=\(Constants.scopes)&redirect_uri=\(Constants.redirectURI)&show_dialog=TRUE"
@@ -83,5 +84,28 @@ final class AuthManager: ObservableObject {
                 self.tokenExpirationDate = Date().addingTimeInterval(TimeInterval(result.expires_in))
             }
         }
+    }
+    
+    // TODO: HANDLE INVALID TOKEN
+    public func withValidToken(completion: @escaping(String) -> Void ){
+        guard !refreshingToken else {
+            onRefreshBlock.append(completion)
+            return
+        }
+        
+        if shouldRefreshToken {
+            
+        }
+    }
+    
+    private var onRefreshBlock = [((String)-> Void)]()
+    
+    private var shouldRefreshToken: Bool {
+        guard let tokenExpirationDate = tokenExpirationDate else {
+            return false
+        }
+        let now = Date()
+        let seconds: TimeInterval = 300
+        return now.addingTimeInterval(seconds) >= tokenExpirationDate
     }
 }
