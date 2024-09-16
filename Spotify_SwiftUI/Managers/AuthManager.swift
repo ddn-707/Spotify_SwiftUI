@@ -86,7 +86,6 @@ final class AuthManager: ObservableObject {
         }
     }
     
-    // TODO: HANDLE INVALID TOKEN
     public func withValidToken(completion: @escaping(String) -> Void ){
         guard !refreshingToken else {
             onRefreshBlock.append(completion)

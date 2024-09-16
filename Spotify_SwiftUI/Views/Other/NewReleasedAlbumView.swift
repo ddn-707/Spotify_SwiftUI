@@ -6,11 +6,11 @@
 //
 
 import SwiftUI
-// TODO: map data and handle logic
+
 struct NewReleasedAlbumView: View {
     @ObservedObject var viewModel: AlbumViewModel
     
-    static let itemWidth = (Helper.screenWidth - 80) / 2.5
+    static let itemWidth = Double((Helper.screenWidth - 80) / 2.5)
     
     let rows = [
         GridItem(.fixed(itemWidth)),
@@ -22,14 +22,17 @@ struct NewReleasedAlbumView: View {
             newReleaseAlbumItem
             ScrollView (.horizontal, showsIndicators: false){
                 LazyHGrid(rows: rows) {
-                    ForEach(viewModel.newReleasesAlbums.items, id: \.self.id) { album in
-                        Text("hello")
+                    ForEach(viewModel.newReleasesAlbums.items, id: \.self.id) { 
+                        album in
+                        newReleaseAlbumCell(album: album)
+                    }
+                    ListPlacehoderRowView(state: viewModel.newReleaseState) {
+                        viewModel.loadMoreNewReleases()
                     }
                 }
             }
         }
     }
-}
     
     private var newReleaseAlbumItem: some View {
         Text("New Release Albums")
@@ -38,14 +41,12 @@ struct NewReleasedAlbumView: View {
             .padding(.top,5)
             .padding(.horizontal)
     }
-    //TODO: build UI 
-    private func newReleaseAlbumCell() -> some View {
+    
+    private func newReleaseAlbumCell(album: Album) -> some View {
+        let albumString = album.images.first?.url ?? ""
         return ZStack{
-            HStack(alignment: .top) {
-                Image(systemName: "people")
-                AsyncImage(
-                    url: URL(string: "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.dreamstime.com%2Fphotos-images%2Frewarding.html&psig=AOvVaw20yZz_SV8RELSV6YOFGKE5&ust=1726417868694000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCIjM3_DtwogDFQAAAAAdAAAAABAK")
-                ) { image in
+            Color.gray.opacity(0.2)
+            HStack(alignment: .top) {                AsyncImage(url: URL(string: albumString)){ image in
                     image.resizable()
                 } placeholder: {
                     ProgressView()
@@ -55,19 +56,22 @@ struct NewReleasedAlbumView: View {
                 .frame(width: Helper.screenWidth / 3)
 
                 VStack(alignment: .leading, spacing: 7) {
-                    Text("Title")
+                    Text(album.name)
                         .font(.title2)
                         .bold()
-                    Text("artist")
+                    Text(album.artists.first?.name ?? "_")
                         .font(.title3)
-                    Text("tracks: 8")
+                    Text("tracks: \(album.totalTracks)")
                         .font(.subheadline)
                 }.padding(.vertical, 10)
             }
+            .frame(width: Helper.screenWidth - 80, alignment: .leading)
         }
+        .frame(height: (Helper.screenWidth - 80)/2.5, alignment: .center)
+        .foregroundColor(.primary)
     }
 }
 
 #Preview {
-    NewReleasedAlbumView()
+    NewReleasedAlbumView(viewModel: AlbumViewModel())
 }
