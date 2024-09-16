@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8387BB932C98407A008A230E /* Artist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8387BB922C98407A008A230E /* Artist.swift */; };
 		83A2F8642C93DFEE003AAD96 /* WebUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83A2F8632C93DFEE003AAD96 /* WebUIView.swift */; };
 		83A2F8672C943470003AAD96 /* AuthResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83A2F8662C943470003AAD96 /* AuthResponse.swift */; };
 		AE06AF272C971AA000E6331C /* AlbumViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE06AF262C971AA000E6331C /* AlbumViewModel.swift */; };
@@ -33,6 +34,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		8387BB922C98407A008A230E /* Artist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Artist.swift; sourceTree = "<group>"; };
 		83A2F8632C93DFEE003AAD96 /* WebUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebUIView.swift; sourceTree = "<group>"; };
 		83A2F8662C943470003AAD96 /* AuthResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthResponse.swift; sourceTree = "<group>"; };
 		AE06AF262C971AA000E6331C /* AlbumViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumViewModel.swift; sourceTree = "<group>"; };
@@ -86,6 +88,7 @@
 				AE06AF2A2C97233400E6331C /* Album.swift */,
 				AE06AF2C2C9723C500E6331C /* Albums.swift */,
 				AE06AF302C972D5300E6331C /* NewReleases.swift */,
+				8387BB922C98407A008A230E /* Artist.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -94,7 +97,6 @@
 			isa = PBXGroup;
 			children = (
 				AE06AF262C971AA000E6331C /* AlbumViewModel.swift */,
-				AE06AF2E2C9726D100E6331C /* APICaller.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -180,6 +182,7 @@
 		AE80FB2C2C932C47002601F4 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
+				AE06AF2E2C9726D100E6331C /* APICaller.swift */,
 				AE80FB2D2C932C86002601F4 /* AuthManager.swift */,
 			);
 			path = Managers;
@@ -284,6 +287,7 @@
 				AE06AF312C972D5300E6331C /* NewReleases.swift in Sources */,
 				AEFFC4792C9498DE00E35DA5 /* HomeView.swift in Sources */,
 				AE06AF2F2C9726D100E6331C /* APICaller.swift in Sources */,
+				8387BB932C98407A008A230E /* Artist.swift in Sources */,
 				AE06AF292C97206A00E6331C /* FetchState.swift in Sources */,
 				AEFFC47D2C94991400E35DA5 /* LibraryView.swift in Sources */,
 				83A2F8642C93DFEE003AAD96 /* WebUIView.swift in Sources */,

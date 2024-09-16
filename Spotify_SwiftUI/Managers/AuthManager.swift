@@ -94,7 +94,15 @@ final class AuthManager: ObservableObject {
         }
         
         if shouldRefreshToken {
-            
+            refreshTokenIfNeeded { [weak self] success in
+                if success {
+                    if let token = self?.accessToken,success {
+                        completion (token)
+                    }
+                }
+            }
+        }else if let token = accessToken {
+            completion(token)
         }
     }
     
@@ -107,5 +115,57 @@ final class AuthManager: ObservableObject {
         let now = Date()
         let seconds: TimeInterval = 300
         return now.addingTimeInterval(seconds) >= tokenExpirationDate
+    }
+    
+    public func refreshTokenIfNeeded(completion: ((Bool)->Void)?){
+        guard !refreshingToken else {return}
+        guard shouldRefreshToken else {
+            completion?(true)
+            return
+        }
+        guard let refreshToken = self.refreshToken else {
+            return
+        }
+        guard let url = URL(string: Constants.tokenAPIURL) else {return}
+        refreshingToken = true
+        
+        var components = URLComponents()
+        components.queryItems = [
+            URLQueryItem(name: "grant_type", value: "refresh_token"),
+            URLQueryItem(name: "refresh_token", value: refreshToken)
+        ]
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+        let basicToken = Constants.getClientID() + ":" + Constants.getClientSecret()
+        let data = basicToken.data(using: .utf8)
+        guard let base64String = data?.base64EncodedString() else {
+            print("refreshTokenIfNeeded#Error!: Failure to get basse64String")
+            completion?(false)
+            return
+        }
+        request.setValue("Basic \(base64String)", forHTTPHeaderField: "Authorization")
+        request.httpBody = components.query?.data(using: .utf8)
+        
+        let task = URLSession.shared.dataTask(with: request) { [weak self] data, urlResponse, error in
+            self?.refreshingToken = false
+            guard let data = data ,error == nil else {
+                print("refreshTokenIfNeeded#Error!: data error")
+                completion?(false)
+                return
+            }
+            do {
+                let result = try JSONDecoder().decode(AuthResponse.self, from: data)
+                self?.onRefreshBlock.forEach{$0(result.access_token)}
+                self?.onRefreshBlock.removeAll()
+                self?.cacheToken(result: result)
+                completion?(true)
+            }catch {
+                print("refreshTokenIfNeeded#Error!: \(error)")
+                completion?(false)
+            }
+        }
+        task.resume()
     }
 }

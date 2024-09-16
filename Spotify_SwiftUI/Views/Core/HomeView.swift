@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct HomeView: View {
+    @StateObject var albumViewModel = AlbumViewModel()
     var body: some View {
         NavigationView {
             bodyView
@@ -21,12 +22,12 @@ struct HomeView: View {
                 .navigationTitle("Spotify")
         }
     }
-}
-
-private var bodyView: some View {
-    ScrollView {
-        VStack {
-            NewReleasedAlbumView()
+    
+    private var bodyView: some View {
+        ScrollView {
+            VStack {
+                NewReleasedAlbumView(viewModel: albumViewModel)
+            }
         }
     }
 }

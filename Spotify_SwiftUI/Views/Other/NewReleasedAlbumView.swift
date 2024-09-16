@@ -8,6 +8,8 @@
 import SwiftUI
 // TODO: map data and handle logic
 struct NewReleasedAlbumView: View {
+    @ObservedObject var viewModel: AlbumViewModel
+    
     static let itemWidth = (Helper.screenWidth - 80) / 2.5
     
     let rows = [
@@ -20,15 +22,14 @@ struct NewReleasedAlbumView: View {
             newReleaseAlbumItem
             ScrollView (.horizontal, showsIndicators: false){
                 LazyHGrid(rows: rows) {
-                    newReleaseAlbumCell()
-                    newReleaseAlbumCell()
-                    newReleaseAlbumCell()
-                    newReleaseAlbumCell()
+                    ForEach(viewModel.newReleasesAlbums.items, id: \.self.id) { album in
+                        Text("hello")
+                    }
                 }
             }
-            
         }
     }
+}
     
     private var newReleaseAlbumItem: some View {
         Text("New Release Albums")

@@ -7,6 +7,8 @@
 
 import Foundation
 
+//TODO: create Album model
 public struct Album: Codable {
-    
+    public let albumType: String
+    public let artists: [Artist]
 }
