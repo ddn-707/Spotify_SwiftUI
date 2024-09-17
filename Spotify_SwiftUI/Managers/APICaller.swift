@@ -25,7 +25,7 @@ final class APICaller {
     public func getNewReleaseAlbums(offset: Int, limit: Int, completion: @escaping (Result<NewReleases,Error>)-> Void){
         let stringURL = Constants.baseURL + "/browse/new-releases?limit=\(limit)&offset=\(offset)"
         createRequest(with: URL(string: stringURL), type: .GET) { request in
-            let task = URLSession.shared.dataTask(with: request) { [weak self] data, URLResponse, error in
+            let task = URLSession.shared.dataTask(with: request) { data, URLResponse, error in
                 guard let data = data, error == nil else {
                     completion(.failure(APIError.failedToGetData))
                     return
@@ -41,8 +41,27 @@ final class APICaller {
         }
     }
     
+    public func getAllFeaturedPlaylists(limit: Int, offset: Int, completion: @escaping (Result<FeaturedPlaylist,Error>)->Void){
+        let urlString = Constants.baseURL + "/browse/featured-playlists?limit=\(limit)&offset=\(offset)"
+        print("url: \(urlString)")
+        createRequest(with: URL(string: urlString), type: .GET) { request in
+            let task = URLSession.shared.dataTask(with: request) { data, urlResponse, error in
+                guard let data = data , error == nil else {return}
+                do {
+                    let result = try JSONDecoder().decode(FeaturedPlaylist.self, from: data)
+                    completion(.success(result))
+                } catch {
+                    print("getAllFeaturedPlaylists#Err: \(error)")
+                    completion(.failure(APIError.failedToGetData))
+                }
+            }
+            task.resume()
+        }
+    }
+    
     private func createRequest(with url: URL?, type: HTTPMethod, completion: @escaping (URLRequest) ->Void){
         AuthManager.shared.withValidToken { token in
+            print("token: \(token)")
             guard let apiURL = url else {return}
             var request = URLRequest(url: apiURL)
             request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")

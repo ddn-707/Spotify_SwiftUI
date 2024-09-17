@@ -27,6 +27,7 @@ struct HomeView: View {
         ScrollView {
             VStack {
                 NewReleasedAlbumView(viewModel: albumViewModel)
+                FeaturedPlaylistView(viewModel: albumViewModel)
             }
         }
     }

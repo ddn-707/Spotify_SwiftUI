@@ -46,7 +46,8 @@ struct NewReleasedAlbumView: View {
         let albumString = album.images.first?.url ?? ""
         return ZStack{
             Color.gray.opacity(0.2)
-            HStack(alignment: .top) {                AsyncImage(url: URL(string: albumString)){ image in
+            HStack(alignment: .top) {
+                AsyncImage(url: URL(string: albumString)){ image in
                     image.resizable()
                 } placeholder: {
                     ProgressView()
