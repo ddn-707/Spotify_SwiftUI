@@ -59,6 +59,49 @@ final class APICaller {
         }
     }
     
+    public func getGenres(completion: @escaping(Result<RecommendedGenresResponse,Error>) -> Void) {
+        let urlString = Constants.baseURL + "/recommendations/available-genre-seeds"
+        createRequest(with: URL(string: urlString), type: .GET) { request in
+            let task = URLSession.shared.dataTask(with: request) { data, _, error in
+                guard let data = data, error == nil else {
+                    return
+                }
+                
+                do {
+                    let result = try JSONDecoder().decode(RecommendedGenresResponse.self, from: data)
+                    completion(.success(result))
+                } catch {
+                    print("getGenres#Err: \(error)")
+                    completion(.failure(APIError.failedToGetData))
+                }
+            }
+            task.resume()
+        }
+    }
+    
+    public func getRecommendations(genres: Set<String>, completion: @escaping(Result<Recommendations, Error>) -> Void) {
+        let seeds = genres.joined(separator: ",")
+        createRequest(with: URL(string: Constants.baseURL + "/recommendations?limit=40&seed_genres=\(seeds)"),
+                      type: .GET) { request in
+            let task = URLSession.shared.dataTask(with: request) { data, urlResponse, error in
+                guard let data = data, error == nil else {
+                    completion(.failure(APIError.failedToGetData))
+                    return
+                }
+                do {
+                    let result = try JSONDecoder().decode(Recommendations.self, from: data)
+                    completion(.success(result))
+                }
+                catch {
+                    print(error)
+                    completion(.failure(error))
+                }
+            }
+            task.resume()
+        }
+    }
+
+    
     private func createRequest(with url: URL?, type: HTTPMethod, completion: @escaping (URLRequest) ->Void){
         AuthManager.shared.withValidToken { token in
             print("token: \(token)")
