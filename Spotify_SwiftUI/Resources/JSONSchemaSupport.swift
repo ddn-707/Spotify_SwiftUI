@@ -30,3 +30,8 @@ public class JSONNull: Codable, Hashable {
         try container.encodeNil()
     }
 }
+
+//TODO: Create JSONAny
+public class JSONAny: Codable {
+    
+}

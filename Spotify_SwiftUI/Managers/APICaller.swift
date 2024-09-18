@@ -18,6 +18,7 @@ final class APICaller {
         case failedToGetData
     }
     
+    //MARK: New release album
     public func getNewReleaseAlbums(offset: Int, limit: Int, completion: @escaping (Result<NewReleases,Error>)-> Void){
         let stringURL = Constants.baseURL + "/browse/new-releases?limit=\(limit)&offset=\(offset)"
         createRequest(with: URL(string: stringURL), type: .GET) { request in
@@ -37,6 +38,7 @@ final class APICaller {
         }
     }
     
+    //MARK: Featured playlist
     public func getAllFeaturedPlaylists(limit: Int, offset: Int, completion: @escaping (Result<FeaturedPlaylist,Error>)->Void){
         let urlString = Constants.baseURL + "/browse/featured-playlists?limit=\(limit)&offset=\(offset)"
         print("url: \(urlString)")
@@ -55,6 +57,7 @@ final class APICaller {
         }
     }
     
+    //MARK: Recommendation
     public func getGenres(completion: @escaping(Result<RecommendedGenresResponse,Error>) -> Void) {
         let urlString = Constants.baseURL + "/recommendations/available-genre-seeds"
         createRequest(with: URL(string: urlString), type: .GET) { request in
@@ -90,6 +93,27 @@ final class APICaller {
                 }
                 catch {
                     print(error)
+                    completion(.failure(error))
+                }
+            }
+            task.resume()
+        }
+    }
+    
+    //MARK: Album detail
+    public func getAlbumDetails(albumId: String, completion: @escaping(Result<AlbumDetails, Error>) -> Void) {
+        let urlString = Constants.baseURL + "/albums/" + albumId
+        createRequest(with: URL(string: urlString), type: .GET) { request in
+            let task = URLSession.shared.dataTask(with: request) { data, urlResponse, error in
+                guard let data = data , error == nil else {
+                    completion(.failure(APIError.failedToGetData))
+                    return
+                }
+                do {
+                    let result = try JSONDecoder().decode(AlbumDetails.self, from: data)
+                    completion(.success(result))
+                } catch {
+                    print("getAlbumDetails#Err: \(error)")
                     completion(.failure(error))
                 }
             }
