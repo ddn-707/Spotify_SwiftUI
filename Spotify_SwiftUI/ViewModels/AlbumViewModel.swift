@@ -13,6 +13,7 @@ class AlbumViewModel: ObservableObject {
     init(){
         getNewReleases()
         getFeaturedPlaylists()
+        getRecommendations()
     }
     
 
@@ -99,6 +100,45 @@ class AlbumViewModel: ObservableObject {
             case .failure(let error):
                 print("loadMoreFeaturedPlaylists#Err: \(error.localizedDescription)")
                 break
+            }
+        }
+    }
+    
+    //MARK: Recomandation
+    @Published var recommendationsState: FetchState = .good
+    @Published var recommendations: Recommendations = Recommendations(tracks: [], seeds: [])
+    
+    private func getRecommendations(){
+        guard recommendationsState == FetchState.good else {return}
+        self.recommendationsState = .isLoading
+        apiCaller.getGenres {[weak self] result in
+            switch result {
+            case .success(let model):
+                let genres = model.genres
+                var seeds = Set<String>()
+                while seeds.count < 4 {
+                    if let seed = genres.randomElement() {
+                        if !seeds.contains(seed){
+                            seeds.insert(seed)
+                        }
+                    }
+                }
+                self?.apiCaller.getRecommendations(genres: seeds) { [weak self] recommendedResult in
+                    switch recommendedResult {
+                    case .success(let data):
+                        DispatchQueue.main.async {
+                            self?.recommendations  = data
+                            self?.recommendationsState = .loadedAll
+                        }
+                    case .failure(let error):
+                        print("getRecommendations#recommendation: \(error.localizedDescription)")
+                        self?.recommendationsState = .error(error.localizedDescription)
+                    }
+                }
+                
+            case .failure(let error):
+                print("getRecommendations#genres:\(error.localizedDescription)")
+                self?.recommendationsState = .error(error.localizedDescription)
             }
         }
     }

@@ -28,6 +28,7 @@ struct HomeView: View {
             VStack {
                 NewReleasedAlbumView(viewModel: albumViewModel)
                 FeaturedPlaylistView(viewModel: albumViewModel)
+                RecommededView(viewModel: albumViewModel)
             }
         }
     }

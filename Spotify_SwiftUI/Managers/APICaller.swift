@@ -14,10 +14,6 @@ final class APICaller {
         
     }
     
-    struct Constants {
-        static let baseURL = "https://api.spotify.com/v1"
-    }
-    
     enum APIError: Error {
         case failedToGetData
     }
