@@ -17,6 +17,7 @@ struct Constants {
     static let ud_accessToken = "access_token"
     static let ud_refreshToken = "refresh_token"
     static let ud_expirationDate = "expirationDate"
+    static let baseURL = "https://api.spotify.com/v1"
     
     static func getClientID() -> String {
         if clientID.isEmpty {
