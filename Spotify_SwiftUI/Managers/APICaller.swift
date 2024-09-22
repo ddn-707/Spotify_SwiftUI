@@ -101,7 +101,7 @@ final class APICaller {
     }
     
     //MARK: Album detail
-    public func getAlbumDetails(albumId: String, completion: @escaping(Result<AlbumDetails, Error>) -> Void) {
+    public func getAlbumDetails(with albumId: String, completion: @escaping(Result<AlbumDetails, Error>) -> Void) {
         let urlString = Constants.baseURL + "/albums/" + albumId
         createRequest(with: URL(string: urlString), type: .GET) { request in
             let task = URLSession.shared.dataTask(with: request) { data, urlResponse, error in

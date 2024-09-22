@@ -29,4 +29,13 @@ struct Helper {
         Color.teal,
         Color.yellow
     ]
+    
+    static func getRadiomColor() -> Color {
+        backgroundColors.randomElement() ?? .accentColor
+    }
+    
+    static func getArtistName(artist: [Artist]) -> String {
+        let artistName = artist.compactMap {$0.name}
+        return artistName.joined(separator: ",")
+    }
 }
